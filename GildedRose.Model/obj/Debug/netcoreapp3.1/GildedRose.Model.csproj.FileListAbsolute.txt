@@ -1,8 +1,0 @@
-D:\Development\C#\ZBRA\Kata\GildedRose\GildedRose.Model\bin\Debug\netcoreapp3.1\GildedRose.Model.deps.json
-D:\Development\C#\ZBRA\Kata\GildedRose\GildedRose.Model\bin\Debug\netcoreapp3.1\GildedRose.Model.dll
-D:\Development\C#\ZBRA\Kata\GildedRose\GildedRose.Model\bin\Debug\netcoreapp3.1\GildedRose.Model.pdb
-D:\Development\C#\ZBRA\Kata\GildedRose\GildedRose.Model\obj\Debug\netcoreapp3.1\GildedRose.Model.AssemblyInfoInputs.cache
-D:\Development\C#\ZBRA\Kata\GildedRose\GildedRose.Model\obj\Debug\netcoreapp3.1\GildedRose.Model.AssemblyInfo.cs
-D:\Development\C#\ZBRA\Kata\GildedRose\GildedRose.Model\obj\Debug\netcoreapp3.1\GildedRose.Model.csproj.CoreCompileInputs.cache
-D:\Development\C#\ZBRA\Kata\GildedRose\GildedRose.Model\obj\Debug\netcoreapp3.1\GildedRose.Model.dll
-D:\Development\C#\ZBRA\Kata\GildedRose\GildedRose.Model\obj\Debug\netcoreapp3.1\GildedRose.Model.pdb
