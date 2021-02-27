@@ -10,10 +10,5 @@ namespace GildedRose.Model
         public int SellIn { get; set; }
         public DateTime SellBy { get; set; }
         public int Quality { get; set; }
-
-        public void UpdateQuality()
-        {
-            //Do nothing. Legendary Items don't need to be sold nor decrease in Quality
-        }
     }
 }

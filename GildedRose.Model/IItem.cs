@@ -13,7 +13,5 @@ namespace GildedRose.Model
         DateTime SellBy { get; set; }
 
         int Quality { get; set; }
-
-        void UpdateQuality();
     }
 }
