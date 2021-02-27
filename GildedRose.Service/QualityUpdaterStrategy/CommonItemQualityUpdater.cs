@@ -1,13 +1,13 @@
 ﻿using GildedRose.Model;
 using System;
 
-namespace GildedRose.Service.Strategy
+namespace GildedRose.Service.QualityUpdaterStrategy
 {
-    class CommonItemUpdater : IUpdaterStrategy
+    internal class CommonItemQualityUpdater : IQualityUpdaterStrategy
     {
         private const int decreaseTwiceAsFast = 2;
 
-        public void Update(Item item)
+        public void Update(IItem item)
         {
             if (item.Quality > 0)
             {

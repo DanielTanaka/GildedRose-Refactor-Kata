@@ -1,46 +1,16 @@
 ﻿using GildedRose.Model;
-using GildedRose.Service.Strategy;
+using GildedRose.Service.Factory;
 
 namespace GildedRose.Service.Impl
 {
-    public class Updater : IUpdaterStrategy
+    public class Updater
     {
-        //TODO: Change the 'Updater' classes to 'QualityUpdater'.
-        //We need to specify what's going to be updated by these methods
-
-        private readonly LegendaryItemUpdater legendaryItemUpdater;
-        private readonly CommonItemUpdater commonItemUpdater;
-        private readonly ContextStrategy contextStrategy;
-
-        public Updater(IValidator validator)
+        public void Update(IItem item)
         {
-            commonItemUpdater = new CommonItemUpdater();
-            legendaryItemUpdater = new LegendaryItemUpdater();
-            contextStrategy = new ContextStrategy(validator);
-        }
+            new Validator().Validate(item);
+            var qualityUpdaterStrategy = QualityUpdaterFactory.CreateQualityUpdaterStrategy(item);
 
-        public void Update(Item item)
-        {
-            //TODO: Finish implementing all other strategies
-            if (ItemCategory.IsCommon(item.Category))
-            {
-                contextStrategy.SetUpdaterStrategy(commonItemUpdater);
-                contextStrategy.Update(item);
-            } 
-            else if (ItemCategory.IsLegendary(item.Category))
-            {
-                contextStrategy.SetUpdaterStrategy(legendaryItemUpdater);
-                contextStrategy.Update(item);
-            }
-            else if (ItemCategory.IsAged(item.Category))
-            {
-                contextStrategy.SetUpdaterStrategy(commonItemUpdater);
-                contextStrategy.Update(item);
-            }
-            else
-            {
-                throw new System.Exception($"{item.Name} is of an unknown Category");
-            }
+            qualityUpdaterStrategy.Update(item);
         }
     }
 }

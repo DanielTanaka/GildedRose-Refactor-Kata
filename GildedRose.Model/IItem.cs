@@ -4,6 +4,8 @@ namespace GildedRose.Model
 {
     public interface IItem
     {
+        static int MaximumAllowedQuantity { get; }
+
         string Name { get; set; }
 
         int SellIn { get; set; }
@@ -11,8 +13,6 @@ namespace GildedRose.Model
         DateTime SellBy { get; set; }
 
         int Quality { get; set; }
-
-        static int MaximumAllowedQuantity { get; }
 
         void UpdateQuality();
     }
