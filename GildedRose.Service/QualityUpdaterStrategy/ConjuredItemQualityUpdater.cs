@@ -4,7 +4,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
 {
     internal class ConjuredItemQualityUpdater : IQualityUpdaterStrategy
     {
-        public void Update(IItem item)
+        public void UpdateItemQuality(IItem item)
         {
 
         }

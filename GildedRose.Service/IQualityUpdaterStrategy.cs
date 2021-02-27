@@ -4,6 +4,6 @@ namespace GildedRose.Service
 {
     internal interface IQualityUpdaterStrategy
     {
-        void Update(IItem item); 
+        void UpdateItemQuality(IItem item); 
     }
 }

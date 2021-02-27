@@ -1,5 +1,7 @@
 using FluentAssertions;
 using GildedRose.Model;
+using GildedRose.Service.API;
+using GildedRose.Service.Impl;
 using GildedRose.Test.Builders;
 using System;
 using Xunit;
@@ -8,6 +10,14 @@ namespace GildedRose.Test
 {
     public class CommonItemUpdateQualityTests
     {
+        private readonly IItemService itemService;
+
+        //TODO: Use this with Dependency Injection later
+        public CommonItemUpdateQualityTests()
+        {
+            itemService = new ItemService();
+        }
+
         [Fact]
         public void UpdateQuality_ItemWithinSellByDate_ShouldUpdateCorrectly()
         {
@@ -16,7 +26,7 @@ namespace GildedRose.Test
                 .WithSellByDate(DateTime.Today.AddDays(15))
                 .Build();
 
-            item.UpdateQuality();
+            itemService.UpdateItemQuality(item);
 
             item.Quality.Should().Be(49);
         }
@@ -29,7 +39,7 @@ namespace GildedRose.Test
                 .WithSellByDate(DateTime.Today.AddDays(-15))
                 .Build();
 
-            item.UpdateQuality();
+            itemService.UpdateItemQuality(item);
 
             item.Quality.Should().Be(48);
         }

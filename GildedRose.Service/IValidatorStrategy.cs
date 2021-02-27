@@ -4,6 +4,6 @@ namespace GildedRose.Service
 {
     internal interface IValidatorStrategy
     {
-        void Validate(IItem item);
+        void ValidateItem(IItem item);
     }
 }

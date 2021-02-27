@@ -4,9 +4,9 @@ using System;
 
 namespace GildedRose.Service.Impl
 {
-    internal class Validator : IValidatorStrategy
+    internal class ItemValidator : IValidatorStrategy
     {
-        public void Validate(IItem item)
+        public void ValidateItem(IItem item)
         {
             if (item.Quality < 0)
             {
@@ -15,7 +15,7 @@ namespace GildedRose.Service.Impl
             }
 
             var validatorStrategy = ValidatorFactory.CreateValidatorStrategy(item);
-            validatorStrategy.Validate(item);
+            validatorStrategy.ValidateItem(item);
         }
     }
 }

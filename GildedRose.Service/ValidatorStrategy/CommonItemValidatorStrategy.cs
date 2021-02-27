@@ -5,7 +5,7 @@ namespace GildedRose.Service.ValidatorStrategy
 {
     internal class CommonItemValidatorStrategy : IValidatorStrategy
     {
-        public void Validate(IItem item)
+        public void ValidateItem(IItem item)
         {
             if (item.Quality > CommonItem.MaximumAllowedQuality)
             {

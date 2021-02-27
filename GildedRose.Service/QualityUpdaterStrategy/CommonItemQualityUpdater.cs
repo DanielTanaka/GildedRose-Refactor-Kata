@@ -7,7 +7,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
     {
         private const int decreaseTwiceAsFast = 2;
 
-        public void Update(IItem item)
+        public void UpdateItemQuality(IItem item)
         {
             if (item.Quality > 0)
             {

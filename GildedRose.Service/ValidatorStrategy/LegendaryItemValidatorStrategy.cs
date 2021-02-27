@@ -5,7 +5,7 @@ namespace GildedRose.Service.ValidatorStrategy
 {
     internal class LegendaryItemValidatorStrategy : IValidatorStrategy
     {
-        public void Validate(IItem item)
+        public void ValidateItem(IItem item)
         {
             if (item.Quality > LegendaryItem.MaximumAllowedQuality)
             {

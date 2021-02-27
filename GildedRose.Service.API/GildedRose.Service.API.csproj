@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contract\" />
+    <ProjectReference Include="..\GildedRose.Model\GildedRose.Model.csproj" />
   </ItemGroup>
-
+  
 </Project>

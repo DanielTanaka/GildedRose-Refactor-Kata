@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using GildedRose.Model;
+using GildedRose.Service.API;
+using GildedRose.Service.Impl;
 using GildedRose.Test.Builders;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,14 @@ namespace GildedRose.Test
 {
     public class GeneralUpdateItemQualityTests
     {
+        private readonly IItemService itemService;
+
+        //TODO: Use this with Dependency Injection later
+        public GeneralUpdateItemQualityTests()
+        {
+            itemService = new ItemService();
+        }
+
         private readonly IList<IItem> allVariants = new List<IItem>()
         {
             new CommonItem(),
@@ -34,7 +44,7 @@ namespace GildedRose.Test
                         .WithQuality(value)
                         .Build();
 
-                    item.Invoking(i => i.UpdateQuality())
+                    itemService.Invoking(i => i.UpdateItemQuality(item))
                         .Should()
                         .Throw<Exception>();
                 }
@@ -50,7 +60,7 @@ namespace GildedRose.Test
                     .WithQuality(0)
                     .Build();
 
-                item.UpdateQuality();
+                itemService.UpdateItemQuality(item);
 
                 item.Quality.Should().Be(0);
             }

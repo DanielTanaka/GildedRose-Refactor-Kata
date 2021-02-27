@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GildedRose.Model\GildedRose.Model.csproj" />
+    <ProjectReference Include="..\GildedRose.Service.API\GildedRose.Service.API.csproj" />
   </ItemGroup>
   
 </Project>
