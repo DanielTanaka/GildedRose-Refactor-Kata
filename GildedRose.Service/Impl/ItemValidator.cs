@@ -3,7 +3,7 @@ using GildedRose.Service.API.Exceptions;
 
 namespace GildedRose.Service.Impl
 {
-    internal class ItemValidator : IValidatorStrategy
+    internal class ItemValidator
     {
         public void ValidateItem(IItem item)
         {
