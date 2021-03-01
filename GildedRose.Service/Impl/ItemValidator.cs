@@ -1,6 +1,5 @@
 ﻿using GildedRose.Model;
-using GildedRose.Service.Factory;
-using System;
+using GildedRose.Service.API.Exceptions;
 
 namespace GildedRose.Service.Impl
 {
@@ -10,12 +9,12 @@ namespace GildedRose.Service.Impl
         {
             if (item.Quality < 0)
             {
-                //TODO: Implement a better exception type
-                throw new Exception("Item cannot have a negative Quality");
+                throw new QualityOutOfRangeException("Item cannot have a negative Quality");
             }
-
-            var validatorStrategy = ValidatorFactory.CreateValidatorStrategy(item);
-            validatorStrategy.ValidateItem(item);
+            if (item.Quality > item.MaximumAllowedQuality)
+            {
+                throw new QualityOutOfRangeException(item.MaximumAllowedQuality);
+            }
         }
     }
 }

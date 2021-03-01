@@ -3,7 +3,7 @@ using System;
 
 namespace GildedRose.Service.QualityUpdaterStrategy
 {
-    internal class CommonItemQualityUpdater : IQualityUpdaterStrategy
+    internal class CommonItemQualityUpdaterStrategy : IQualityUpdaterStrategy
     {
         private const int decreaseTwiceAsFast = 2;
 

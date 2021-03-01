@@ -12,7 +12,6 @@ namespace GildedRose.Test
     {
         private readonly IItemService itemService;
 
-        //TODO: Use this with Dependency Injection later
         public LegendaryItemUpdateQualityTests()
         {
             itemService = new ItemService();

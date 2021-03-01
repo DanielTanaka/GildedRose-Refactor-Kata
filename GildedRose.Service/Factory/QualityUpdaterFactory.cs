@@ -11,16 +11,16 @@ namespace GildedRose.Service.Factory
         {
             if (item == null)
             {
-                throw new ArgumentException($"{nameof(item)} cannot be null");
+                throw new ArgumentNullException($"{nameof(item)} cannot be null");
             }
 
             if (item is CommonItem)
             {
-                return new CommonItemQualityUpdater();
+                return new CommonItemQualityUpdaterStrategy();
             }
             if (item is LegendaryItem)
             {
-                return new LegendaryItemQualityUpdater();
+                return new LegendaryItemQualityUpdaterStrategy();
             }
 
             throw new ArgumentException("Item is of an invalid type");

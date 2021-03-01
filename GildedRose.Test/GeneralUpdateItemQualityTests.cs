@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using GildedRose.Model;
 using GildedRose.Service.API;
+using GildedRose.Service.API.Exceptions;
 using GildedRose.Service.Impl;
 using GildedRose.Test.Builders;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -13,40 +13,33 @@ namespace GildedRose.Test
     {
         private readonly IItemService itemService;
 
-        //TODO: Use this with Dependency Injection later
         public GeneralUpdateItemQualityTests()
         {
             itemService = new ItemService();
         }
 
-        private readonly IList<IItem> allVariants = new List<IItem>()
+        private readonly IList<IItem> allItemVariants = new List<IItem>
         {
             new CommonItem(),
             new LegendaryItem()
         };
 
-        private readonly IList<(IItem, int)> allVariantsAndTheirMaximumAllowedQuality = new List<(IItem, int)>()
-        {
-            (new CommonItem(), CommonItem.MaximumAllowedQuality),
-            (new LegendaryItem(), LegendaryItem.MaximumAllowedQuality)
-        };
-
         [Fact]
-        public void Foo()
+        public void UpdateQuality_ItemWithQualityOutOfRange_ShouldThrowAnException()
         {
-            foreach (var tuple in allVariantsAndTheirMaximumAllowedQuality)
+            foreach (var variant in allItemVariants)
             {
-                var invalidValues = GetInvalidQualityValuesForItem(tuple.Item2);
+                var invalidValues = GetInvalidQualityValues(variant.MaximumAllowedQuality);
 
                 foreach (var value in invalidValues)
                 {
-                    var item = new ItemBuilder(tuple.Item1)
+                    var item = new ItemBuilder(variant)
                         .WithQuality(value)
                         .Build();
 
                     itemService.Invoking(i => i.UpdateItemQuality(item))
                         .Should()
-                        .Throw<Exception>();
+                        .Throw<QualityOutOfRangeException>();
                 }
             }
         }
@@ -54,7 +47,7 @@ namespace GildedRose.Test
         [Fact]
         public void UpdateQuality_ItemWithZeroedQuality_ShouldNotLeaveItWithNegativeValue()
         {
-            foreach (var variant in allVariants)
+            foreach (var variant in allItemVariants)
             {
                 var item = new ItemBuilder(variant)
                     .WithQuality(0)
@@ -66,32 +59,11 @@ namespace GildedRose.Test
             }
         }
 
-        //[Fact]
-        //public void UpdateQuality_ItemWithInvalidQuality_ShouldThrowAnException()
-        //{
-        //    foreach (var variant in allVariants)
-        //    {
-        //        var invalidValues = GetInvalidQualityValuesForItem(variant);
-
-        //        foreach (var value in invalidValues)
-        //        {
-        //            var item = new ItemBuilder(variant)
-        //                .WithQuality(value)
-        //                .Build();
-
-        //            item.Invoking(i => i.UpdateQuality())
-        //                .Should()
-        //                .Throw<Exception>();
-        //        }
-        //    }
-        //}
-
-        //TODO: Think of a better way to retrieve these values
-        private IList<int> GetInvalidQualityValuesForItem(int maximumAllowedQuality)
+        private IList<int> GetInvalidQualityValues(int itemMaximumAllowedQuality)
         {
             return new List<int>
             {
-                maximumAllowedQuality + 5,
+                itemMaximumAllowedQuality + 1,
                 -1,
                 -45
             };

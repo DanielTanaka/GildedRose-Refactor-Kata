@@ -2,7 +2,7 @@
 
 namespace GildedRose.Service.QualityUpdaterStrategy
 {
-    internal class AgedItemQualityUpdater : IQualityUpdaterStrategy
+    internal class AgedItemQualityUpdaterStrategy : IQualityUpdaterStrategy
     {
         public void UpdateItemQuality(IItem item)
         {
