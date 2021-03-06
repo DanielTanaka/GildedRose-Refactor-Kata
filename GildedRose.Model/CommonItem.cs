@@ -9,6 +9,7 @@ namespace GildedRose.Model
         public string Name { get; set; }
         public DateTime SellBy { get; set; }
         public int Quality { get; set; }
+        public DateTime UpdateQualityLastRan { get; set; }
         public int MaximumAllowedQuality { get => ItemMaximumAllowedQuality; }
     }
 }

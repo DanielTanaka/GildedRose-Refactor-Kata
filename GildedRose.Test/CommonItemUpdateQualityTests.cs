@@ -17,30 +17,69 @@ namespace GildedRose.Test
             itemService = new ItemService();
         }
 
-        [Fact]
-        public void UpdateQuality_ItemWithinSellByDate_ShouldUpdateCorrectly()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(5)]
+        [InlineData(10)]
+        public void UpdateQuality_ItemWithinSellByDate_ShouldUpdateQualityCorrectly(int lastRanThisManyDaysAgo)
         {
             var item = new ItemBuilder(new CommonItem())
-                .WithQuality(50)
-                .WithSellByDate(DateTime.Today.AddDays(15))
+                .WithDefaultValues()
+                .WithUpdateQualityLastRan(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
+                .Build();
+            var updatedQuality = item.Quality - lastRanThisManyDaysAgo;
+
+            itemService.UpdateItemQuality(item);
+
+            item.Quality.Should().Be(updatedQuality);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(5)]
+        [InlineData(10)]
+        public void UpdateQuality_ItemWithPastSellByDate_ShouldDegradeQualityTwiceAsFast(int lastRanThisManyDaysAgo)
+        {
+            var item = new ItemBuilder(new CommonItem())
+                .WithDefaultValues()
+                .WithSellByDate(DateTime.Today.AddDays(-15))
+                .WithUpdateQualityLastRan(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
+                .Build();
+
+            var qualityDegradedTwiceAsFast = item.Quality - lastRanThisManyDaysAgo * 2;
+
+            itemService.UpdateItemQuality(item);
+
+            item.Quality.Should().Be(qualityDegradedTwiceAsFast);
+        }
+
+        [Theory]
+        [InlineData(30)]
+        [InlineData(40)]
+        public void UpdateQuality_ItemWithPastSellByDate_ShouldDegradeQualityTwiceAsFastLimitedToMinimumOfZero(int lastRanThisManyDaysAgo)
+        {
+            var item = new ItemBuilder(new CommonItem())
+                .WithDefaultValues()
+                .WithSellByDate(DateTime.Today.AddDays(-15))
+                .WithUpdateQualityLastRan(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
                 .Build();
 
             itemService.UpdateItemQuality(item);
 
-            item.Quality.Should().Be(49);
+            item.Quality.Should().Be(0);
         }
 
         [Fact]
-        public void UpdateQuality_ItemWithPastSellByDate_ShouldDegradeQualityTwiceAsFast()
+        public void UpdateQuality_ItemUpdateQualityLastRanDifferenceGreaterThanItsQuality_ShouldUpdateQualityToZero()
         {
             var item = new ItemBuilder(new CommonItem())
-                .WithQuality(50)
-                .WithSellByDate(DateTime.Today.AddDays(-15))
+                .WithDefaultValues()
+                .WithUpdateQualityLastRan(DateTime.Today.AddDays(-52))
                 .Build();
 
             itemService.UpdateItemQuality(item);
 
-            item.Quality.Should().Be(48);
+            item.Quality.Should().Be(0);
         }
     }
 }

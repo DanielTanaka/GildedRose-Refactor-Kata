@@ -17,18 +17,18 @@ namespace GildedRose.Test
             itemService = new ItemService();
         }
 
-        [Fact]
         //Legendary Items don't need to be sold nor decreases in Quality
+        [Fact]
         public void UpdateQuality_ItemWithinSellByDate_ShouldDoNothing()
         {
             var item = new ItemBuilder(new LegendaryItem())
-                .WithQuality(50)
-                .WithSellByDate(DateTime.Today.AddDays(15))
+                .WithDefaultValues()
                 .Build();
+            var previousItemQuality = item.Quality;
 
             itemService.UpdateItemQuality(item);
 
-            item.Quality.Should().Be(50);
+            item.Quality.Should().Be(previousItemQuality);
         }
     }
 }

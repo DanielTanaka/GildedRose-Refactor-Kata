@@ -10,6 +10,8 @@ namespace GildedRose.Model
 
         int Quality { get; set; }
 
+        DateTime UpdateQualityLastRan { get; set; }
+
         int MaximumAllowedQuality { get; }
     }
 }

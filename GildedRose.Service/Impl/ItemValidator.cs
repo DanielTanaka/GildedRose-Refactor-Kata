@@ -1,5 +1,6 @@
 ﻿using GildedRose.Model;
 using GildedRose.Service.API.Exceptions;
+using System;
 
 namespace GildedRose.Service.Impl
 {
@@ -14,6 +15,10 @@ namespace GildedRose.Service.Impl
             if (item.Quality > item.MaximumAllowedQuality)
             {
                 throw new QualityOutOfRangeException(item.MaximumAllowedQuality);
+            }
+            if (item.UpdateQualityLastRan > DateTime.Today)
+            {
+                throw new Exception($"Item cannot have its {nameof(item.UpdateQualityLastRan)} in the future");
             }
         }
     }

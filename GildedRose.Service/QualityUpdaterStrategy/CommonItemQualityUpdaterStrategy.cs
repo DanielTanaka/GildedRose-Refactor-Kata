@@ -11,14 +11,32 @@ namespace GildedRose.Service.QualityUpdaterStrategy
         {
             if (item.Quality > 0)
             {
-                if (item.SellBy < DateTime.Today)
+                var differenceInDays = (DateTime.Today - item.UpdateQualityLastRan).Days;
+                if (differenceInDays > 0)
                 {
-                    item.Quality -= decreaseTwiceAsFast;
+                    if (item.SellBy < DateTime.Today)
+                    {
+                        var newQuality = item.Quality - differenceInDays * decreaseTwiceAsFast;
+                        ValidateAndUpdateNewQuality(item, newQuality);
+                    }
+                    else
+                    {
+                        var newQuality = item.Quality - differenceInDays;
+                        ValidateAndUpdateNewQuality(item, newQuality);
+                    }
                 }
-                else
-                {
-                    item.Quality--;
-                }
+            }
+        }
+
+        private void ValidateAndUpdateNewQuality(IItem item, int newQuality)
+        {
+            if (newQuality < 0)
+            {
+                item.Quality = 0;
+            }
+            else
+            {
+                item.Quality = newQuality;
             }
         }
     }
