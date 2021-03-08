@@ -5,38 +5,29 @@ namespace GildedRose.Service.QualityUpdaterStrategy
 {
     internal class CommonItemQualityUpdaterStrategy : IQualityUpdaterStrategy
     {
-        private const int decreaseTwiceAsFast = 2;
-
         public void UpdateItemQuality(IItem item)
         {
-            if (item.Quality > 0)
+            var commonItem = item as CommonItem;
+            if (commonItem != null)
             {
-                var differenceInDays = (DateTime.Today - item.UpdateQualityLastRan).Days;
-                if (differenceInDays > 0)
+                if (commonItem.Quality > 0)
                 {
-                    if (item.SellBy < DateTime.Today)
+                    var differenceInDays = (DateTime.Today - commonItem.UpdateQualityLastRan).Days;
+                    if (differenceInDays > 0)
                     {
-                        var newQuality = item.Quality - differenceInDays * decreaseTwiceAsFast;
-                        ValidateAndUpdateNewQuality(item, newQuality);
-                    }
-                    else
-                    {
-                        var newQuality = item.Quality - differenceInDays;
-                        ValidateAndUpdateNewQuality(item, newQuality);
+                        if (commonItem.SellBy < DateTime.Today)
+                        {
+                            var newQuality = commonItem.Quality - commonItem.PastSellByDateDegradationRate * differenceInDays;
+                            QualityUpdaterHelper.UpdateQualityConsideringMinimumThreshold(commonItem, newQuality);
+                        }
+                        else
+                        {
+                            var newQuality = commonItem.Quality - commonItem.DegradationRate * differenceInDays;
+                            QualityUpdaterHelper.UpdateQualityConsideringMinimumThreshold(commonItem, newQuality);
+                        }
                     }
                 }
-            }
-        }
-
-        private void ValidateAndUpdateNewQuality(IItem item, int newQuality)
-        {
-            if (newQuality < 0)
-            {
-                item.Quality = 0;
-            }
-            else
-            {
-                item.Quality = newQuality;
+                item.UpdateQualityLastRan = DateTime.Today;
             }
         }
     }

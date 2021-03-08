@@ -16,7 +16,7 @@ namespace GildedRose.Test.Builders
         {
             item.Name = "test";
             item.SellBy = DateTime.Today.AddDays(15);
-            item.Quality = item.MaximumAllowedQuality;
+            item.Quality = 35;
             item.UpdateQualityLastRan = DateTime.Today.AddDays(-1);
 
             return this;

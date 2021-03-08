@@ -19,6 +19,7 @@ namespace GildedRose.Test
             itemService = new ItemService();
         }
 
+        //TODO: Include new types
         private readonly IList<IItem> allItemVariants = new List<IItem>
         {
             new CommonItem(),
@@ -103,6 +104,22 @@ namespace GildedRose.Test
                     .Should()
                     .Throw<Exception>()
                     .WithMessage($"Item cannot have its {nameof(item.UpdateQualityLastRan)} in the future"); 
+            }
+        }
+
+        [Fact]
+        public void UpdateQuality_WithUpdateQualityLastRanSetInThePast_ShouldSetUpdateQualityLastRanAsToday()
+        {
+            foreach (var variants in allItemVariants)
+            {
+                var item = new ItemBuilder(variants)
+                    .WithDefaultValues()
+                    .WithUpdateQualityLastRan(DateTime.Today.AddDays(-1))
+                    .Build();
+
+                itemService.UpdateItemQuality(item);
+
+                item.UpdateQualityLastRan.Should().Be(DateTime.Today);
             }
         }
     }

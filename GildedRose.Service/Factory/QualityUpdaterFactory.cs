@@ -6,7 +6,6 @@ namespace GildedRose.Service.Factory
 {
     internal class QualityUpdaterFactory
     {
-        //TODO: Finish implementing for other item types. Only implementing Common and Legendary items for now
         public static IQualityUpdaterStrategy CreateQualityUpdaterStrategy(IItem item)
         {
             if (item == null)
@@ -21,6 +20,18 @@ namespace GildedRose.Service.Factory
             if (item is LegendaryItem)
             {
                 return new LegendaryItemQualityUpdaterStrategy();
+            }
+            if (item is ConjuredItem)
+            {
+                return new ConjuredItemQualityUpdaterStrategy();
+            }
+            if (item is AgedItem)
+            {
+                return new AgedItemQualityUpdaterStrategy();
+            }
+            if (item is BackstagePassItem)
+            {
+                return new BackstagePassQualityUpdaterStrategy();
             }
 
             throw new ArgumentException("Item is of an invalid type");

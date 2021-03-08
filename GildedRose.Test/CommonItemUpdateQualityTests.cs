@@ -17,6 +17,8 @@ namespace GildedRose.Test
             itemService = new ItemService();
         }
 
+        //TODO: Use new Degradation Rate property in each test
+
         [Theory]
         [InlineData(1)]
         [InlineData(5)]
