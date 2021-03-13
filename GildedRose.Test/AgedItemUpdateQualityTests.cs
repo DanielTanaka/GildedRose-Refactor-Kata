@@ -4,8 +4,6 @@ using GildedRose.Service.API;
 using GildedRose.Service.Impl;
 using GildedRose.Test.Builders;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace GildedRose.Test
@@ -46,24 +44,10 @@ namespace GildedRose.Test
             item.Quality.Should().Be(item.MaximumAllowedQuality);
         }
 
-        [Fact]
-        public void UpdateQuality_ItemWithPastSellByDate_ShouldIncreaseQuality()
-        {
-            var item = new ItemBuilder(new AgedItem())
-                .WithDefaultValues()
-                .WithSellByDate(DateTime.Today.AddDays(-1))
-                .Build();
-            var newQuality = CalculateNewAgedItemQuality(item);
-
-            itemService.UpdateItemQuality(item);
-
-            item.Quality.Should().Be(newQuality);
-        }
-
         private int CalculateNewAgedItemQuality(IItem item)
         {
             var agedItem = item as AgedItem;
-            return agedItem.Quality + (DateTime.Today - agedItem.UpdateQualityLastRan).Days * agedItem.QualityIncreasingRate;
+            return agedItem.Quality + (DateTime.Today - agedItem.LastQualityCheckUp).Days * agedItem.QualityIncreasingRate;
         }
     }
 }

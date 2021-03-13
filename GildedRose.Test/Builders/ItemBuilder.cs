@@ -15,9 +15,8 @@ namespace GildedRose.Test.Builders
         public ItemBuilder WithDefaultValues()
         {
             item.Name = "test";
-            item.SellBy = DateTime.Today.AddDays(15);
             item.Quality = 35;
-            item.UpdateQualityLastRan = DateTime.Today.AddDays(-1);
+            item.LastQualityCheckUp = DateTime.Today.AddDays(-1);
 
             return this;
         }
@@ -36,16 +35,9 @@ namespace GildedRose.Test.Builders
             return this;
         }
 
-        public ItemBuilder WithSellByDate(DateTime date)
+        public ItemBuilder WithLastQualityCheckUp(DateTime lastRan)
         {
-            item.SellBy = date;
-
-            return this;
-        }
-
-        public ItemBuilder WithUpdateQualityLastRan(DateTime lastRan)
-        {
-            item.UpdateQualityLastRan = lastRan;
+            item.LastQualityCheckUp = lastRan;
 
             return this;
         }

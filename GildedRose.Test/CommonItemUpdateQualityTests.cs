@@ -18,17 +18,19 @@ namespace GildedRose.Test
         }
 
         //TODO: Use new Degradation Rate property in each test
-
+        //TODO: Think of a better structure for ItemBuilder, since now we have new IItem subtypes
         [Theory]
         [InlineData(1)]
         [InlineData(5)]
         [InlineData(10)]
         public void UpdateQuality_ItemWithinSellByDate_ShouldUpdateQualityCorrectly(int lastRanThisManyDaysAgo)
         {
-            var item = new ItemBuilder(new CommonItem())
+            var item = new CommonItem();
+            new ItemBuilder(item)
                 .WithDefaultValues()
-                .WithUpdateQualityLastRan(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
+                .WithLastQualityCheckUp(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
                 .Build();
+            item.SellBy = DateTime.Today.AddDays(15);
             var updatedQuality = item.Quality - lastRanThisManyDaysAgo;
 
             itemService.UpdateItemQuality(item);
@@ -42,11 +44,12 @@ namespace GildedRose.Test
         [InlineData(10)]
         public void UpdateQuality_ItemWithPastSellByDate_ShouldDegradeQualityTwiceAsFast(int lastRanThisManyDaysAgo)
         {
-            var item = new ItemBuilder(new CommonItem())
+            var item = new CommonItem();
+            new ItemBuilder(item)
                 .WithDefaultValues()
-                .WithSellByDate(DateTime.Today.AddDays(-15))
-                .WithUpdateQualityLastRan(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
+                .WithLastQualityCheckUp(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
                 .Build();
+            item.SellBy = DateTime.Today.AddDays(-15);
 
             var qualityDegradedTwiceAsFast = item.Quality - lastRanThisManyDaysAgo * 2;
 
@@ -60,11 +63,12 @@ namespace GildedRose.Test
         [InlineData(40)]
         public void UpdateQuality_ItemWithPastSellByDate_ShouldDegradeQualityTwiceAsFastLimitedToMinimumOfZero(int lastRanThisManyDaysAgo)
         {
-            var item = new ItemBuilder(new CommonItem())
+            var item = new CommonItem();
+            new ItemBuilder(item)
                 .WithDefaultValues()
-                .WithSellByDate(DateTime.Today.AddDays(-15))
-                .WithUpdateQualityLastRan(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
+                .WithLastQualityCheckUp(DateTime.Today.AddDays(-lastRanThisManyDaysAgo))
                 .Build();
+            item.SellBy = DateTime.Today.AddDays(-15);
 
             itemService.UpdateItemQuality(item);
 
@@ -74,10 +78,12 @@ namespace GildedRose.Test
         [Fact]
         public void UpdateQuality_ItemUpdateQualityLastRanDifferenceGreaterThanItsQuality_ShouldUpdateQualityToZero()
         {
-            var item = new ItemBuilder(new CommonItem())
+            var item = new CommonItem();
+            new ItemBuilder(item)
                 .WithDefaultValues()
-                .WithUpdateQualityLastRan(DateTime.Today.AddDays(-52))
+                .WithLastQualityCheckUp(DateTime.Today.AddDays(-52))
                 .Build();
+            item.SellBy = DateTime.Today.AddDays(15);
 
             itemService.UpdateItemQuality(item);
 

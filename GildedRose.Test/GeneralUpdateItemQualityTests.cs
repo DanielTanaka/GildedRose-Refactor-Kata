@@ -80,7 +80,7 @@ namespace GildedRose.Test
             {
                 var item = new ItemBuilder(variant)
                         .WithDefaultValues()
-                        .WithUpdateQualityLastRan(DateTime.Today)
+                        .WithLastQualityCheckUp(DateTime.Today)
                         .Build();
                 var previousItemQuality = item.Quality;
 
@@ -97,13 +97,13 @@ namespace GildedRose.Test
             {
                 var item = new ItemBuilder(variant)
                         .WithDefaultValues()
-                        .WithUpdateQualityLastRan(DateTime.Today.AddDays(1))
+                        .WithLastQualityCheckUp(DateTime.Today.AddDays(1))
                         .Build();
 
                 itemService.Invoking(i => i.UpdateItemQuality(item))
                     .Should()
                     .Throw<Exception>()
-                    .WithMessage($"Item cannot have its {nameof(item.UpdateQualityLastRan)} in the future"); 
+                    .WithMessage($"Item cannot have its {nameof(item.LastQualityCheckUp)} in the future"); 
             }
         }
 
@@ -114,12 +114,12 @@ namespace GildedRose.Test
             {
                 var item = new ItemBuilder(variants)
                     .WithDefaultValues()
-                    .WithUpdateQualityLastRan(DateTime.Today.AddDays(-1))
+                    .WithLastQualityCheckUp(DateTime.Today.AddDays(-1))
                     .Build();
 
                 itemService.UpdateItemQuality(item);
 
-                item.UpdateQualityLastRan.Should().Be(DateTime.Today);
+                item.LastQualityCheckUp.Should().Be(DateTime.Today);
             }
         }
     }

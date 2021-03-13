@@ -13,25 +13,21 @@ namespace GildedRose.Service.Factory
                 throw new ArgumentNullException($"{nameof(item)} cannot be null");
             }
 
-            if (item is CommonItem)
+            if (item is IDecreasingQualityItem)
             {
-                return new CommonItemQualityUpdaterStrategy();
+                return new DecreasingQualityUpdaterStrategy();
             }
-            if (item is LegendaryItem)
+            if (item is ISteadyQualityItem)
             {
-                return new LegendaryItemQualityUpdaterStrategy();
+                return new SteadyQualityUpdaterStrategy();
             }
-            if (item is ConjuredItem)
+            if (item is IIncreasingQualityItem)
             {
-                return new ConjuredItemQualityUpdaterStrategy();
+                return new IncreasingQualityUpdaterStrategy();
             }
-            if (item is AgedItem)
+            if (item is ICompetitiveQualityItem)
             {
-                return new AgedItemQualityUpdaterStrategy();
-            }
-            if (item is BackstagePassItem)
-            {
-                return new BackstagePassQualityUpdaterStrategy();
+                return new CompetitiveQualityUpdaterStrategy();
             }
 
             throw new ArgumentException("Item is of an invalid type");

@@ -2,7 +2,7 @@
 
 namespace GildedRose.Model
 {
-    public class CommonItem : IItem
+    public class CommonItem : IDecreasingQualityItem
     {
         private static int ItemMaximumAllowedQuality { get => 50; }
         internal static int ItemInitialDegradationRate { get => 1; }
@@ -11,9 +11,9 @@ namespace GildedRose.Model
         public string Name { get; set; }
         public DateTime SellBy { get; set; }
         public int Quality { get; set; }
-        public DateTime UpdateQualityLastRan { get; set; }
+        public DateTime LastQualityCheckUp { get; set; }
         public int MaximumAllowedQuality { get => ItemMaximumAllowedQuality; }
-        public int DegradationRate { get => ItemInitialDegradationRate; }
+        public int QualityDegradationRate { get => ItemInitialDegradationRate; }
         public int PastSellByDateDegradationRate { get => ItemPastSellByDateDegradationRate; }
     }
 }

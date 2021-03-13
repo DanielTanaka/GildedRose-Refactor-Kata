@@ -6,11 +6,9 @@ namespace GildedRose.Model
     {
         string Name { get; set; }
 
-        DateTime SellBy { get; set; }
-
         int Quality { get; set; }
 
-        DateTime UpdateQualityLastRan { get; set; }
+        DateTime LastQualityCheckUp { get; set; }
 
         int MaximumAllowedQuality { get; }
     }

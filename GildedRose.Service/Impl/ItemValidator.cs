@@ -17,9 +17,9 @@ namespace GildedRose.Service.Impl
                 throw new QualityOutOfRangeException(item.MaximumAllowedQuality);
             }
             //TODO: Implement a better exception
-            if (item.UpdateQualityLastRan > DateTime.Today)
+            if (item.LastQualityCheckUp > DateTime.Today)
             {
-                throw new Exception($"Item cannot have its {nameof(item.UpdateQualityLastRan)} in the future");
+                throw new Exception($"Item cannot have its {nameof(item.LastQualityCheckUp)} in the future");
             }
         }
     }
