@@ -3,20 +3,20 @@ using System;
 
 namespace GildedRose.Service.QualityUpdaterStrategy
 {
-    internal class IncreasingQualityUpdaterStrategy : IIncreasingQualityUpdaterStrategy
+    internal class IncreasingQualityUpdaterStrategy : IQualityUpdaterStrategy
     {
         public void UpdateItemQuality(IItem item)
         {
-            var agedItem = item as IIncreasingQualityItem;
-            if (agedItem != null)
+            var increasingQualityItem = item as IIncreasingQualityItem;
+            if (increasingQualityItem != null)
             {
-                if (agedItem.Quality < agedItem.MaximumAllowedQuality)
+                if (increasingQualityItem.Quality < increasingQualityItem.MaximumAllowedQuality)
                 {
-                    var differenceInDays = (DateTime.Today - agedItem.LastQualityCheckUp).Days;
+                    var differenceInDays = (DateTime.Today - increasingQualityItem.LastQualityCheckUp).Days;
                     if (differenceInDays > 0)
                     {
-                        var newQuality = agedItem.Quality + agedItem.QualityIncreasingRate * differenceInDays;
-                        QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(agedItem, newQuality);
+                        var newQuality = increasingQualityItem.Quality + increasingQualityItem.QualityIncreasingRate * differenceInDays;
+                        QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(increasingQualityItem, newQuality);
                     }
                 }
                 item.LastQualityCheckUp = DateTime.Today;

@@ -7,24 +7,24 @@ namespace GildedRose.Service.QualityUpdaterStrategy
     {
         public void UpdateItemQuality(IItem item)
         {
-            var commonItem = item as IDecreasingQualityItem;
-            if (commonItem != null)
+            var decreasingQualityItem = item as IDecreasingQualityItem;
+            if (decreasingQualityItem != null)
             {
-                if (commonItem.Quality > 0)
+                if (decreasingQualityItem.Quality > 0)
                 {
-                    var differenceInDays = (DateTime.Today - commonItem.LastQualityCheckUp).Days;
+                    var differenceInDays = (DateTime.Today - decreasingQualityItem.LastQualityCheckUp).Days;
                     if (differenceInDays > 0)
                     {
                         int newQuality;
-                        if (commonItem.SellBy < DateTime.Today)
+                        if (decreasingQualityItem.SellBy < DateTime.Today)
                         {
-                            newQuality = commonItem.Quality - 2 * commonItem.QualityDegradationRate * differenceInDays;
+                            newQuality = decreasingQualityItem.Quality - 2 * decreasingQualityItem.QualityDegradationRate * differenceInDays;
                         }
                         else
                         {
-                            newQuality = commonItem.Quality - commonItem.QualityDegradationRate * differenceInDays;
+                            newQuality = decreasingQualityItem.Quality - decreasingQualityItem.QualityDegradationRate * differenceInDays;
                         }
-                        QualityUpdaterHelper.UpdateQualityConsideringMinimumThreshold(commonItem, newQuality);
+                        QualityUpdaterHelper.UpdateQualityConsideringMinimumThreshold(decreasingQualityItem, newQuality);
                     }
                 }
                 item.LastQualityCheckUp = DateTime.Today;
