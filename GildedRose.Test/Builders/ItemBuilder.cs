@@ -35,9 +35,9 @@ namespace GildedRose.Test.Builders
             return this;
         }
 
-        public ItemBuilder WithLastQualityCheckUp(DateTime lastRan)
+        public ItemBuilder WithLastQualityCheckUp(DateTime lastCheckUp)
         {
-            item.LastQualityCheckUp = lastRan;
+            item.LastQualityCheckUp = lastCheckUp;
 
             return this;
         }

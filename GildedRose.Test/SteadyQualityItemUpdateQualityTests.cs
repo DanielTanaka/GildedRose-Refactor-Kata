@@ -8,11 +8,11 @@ using Xunit;
 
 namespace GildedRose.Test
 {
-    public class LegendaryItemUpdateQualityTests
+    public class SteadyQualityItemUpdateQualityTests
     {
         private readonly IItemService itemService;
 
-        public LegendaryItemUpdateQualityTests()
+        public SteadyQualityItemUpdateQualityTests()
         {
             itemService = new ItemService();
         }
@@ -29,6 +29,7 @@ namespace GildedRose.Test
             itemService.UpdateItemQuality(item);
 
             item.Quality.Should().Be(previousItemQuality);
+            item.LastQualityCheckUp.Should().Be(DateTime.Today);
         }
     }
 }

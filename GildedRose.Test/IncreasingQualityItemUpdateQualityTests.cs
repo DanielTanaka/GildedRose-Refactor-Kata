@@ -8,11 +8,11 @@ using Xunit;
 
 namespace GildedRose.Test
 {
-    public class AgedItemUpdateQualityTests
+    public class IncreasingQualityItemUpdateQualityTests
     {
         private readonly IItemService itemService;
 
-        public AgedItemUpdateQualityTests()
+        public IncreasingQualityItemUpdateQualityTests()
         {
             itemService = new ItemService();
         }
