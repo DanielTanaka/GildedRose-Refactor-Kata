@@ -7,6 +7,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
     {
         public void UpdateItemQuality(IItem item)
         {
+            //TODO: Try to improve this code
             var competitiveItem = item as ICompetitiveQualityItem;
             if (competitiveItem != null)
             {
@@ -22,22 +23,16 @@ namespace GildedRose.Service.QualityUpdaterStrategy
                         }
                         else
                         {
-                            //TODO: Use new Rate property
-                            var newQuality = competitiveItem.Quality + differenceInDays;
+                            var newQuality = competitiveItem.Quality + differenceInDays * competitiveItem.QualityDegradationRate;
                             if (daysToBeSold <= 2)
                             {
-                                newQuality += differenceInDays * 3;
-                                QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(competitiveItem, newQuality);
+                                newQuality += newQuality * 3;
                             }
                             else if (daysToBeSold <= 5)
                             {
-                                newQuality += differenceInDays * 2;
-                                QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(competitiveItem, newQuality);
+                                newQuality += newQuality * 2;
                             }
-                            else
-                            {
-                                QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(competitiveItem, newQuality);
-                            }
+                            QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(competitiveItem, newQuality);
                         }
                     }
                 } 
