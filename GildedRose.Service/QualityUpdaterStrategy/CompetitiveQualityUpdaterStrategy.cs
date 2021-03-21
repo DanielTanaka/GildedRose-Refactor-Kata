@@ -8,34 +8,35 @@ namespace GildedRose.Service.QualityUpdaterStrategy
         public void UpdateItemQuality(IItem item)
         {
             //TODO: Try to improve this code
-            var competitiveItem = item as ICompetitiveQualityItem;
-            if (competitiveItem != null)
+            if (!(item is ICompetitiveQualityItem competitiveItem))
             {
-                if (competitiveItem.Quality > 0 || competitiveItem.Quality < competitiveItem.MaximumAllowedQuality)
+                throw new ArgumentException($"Using an incorrect strategy: Item is not of type {nameof(ICompetitiveQualityItem)}");
+            }
+
+            if (competitiveItem.Quality > 0 || competitiveItem.Quality < competitiveItem.MaximumAllowedQuality)
+            {
+                var differenceInDays = (DateTime.Today - competitiveItem.LastQualityCheckUp).Days;
+                if (differenceInDays > 0)
                 {
-                    var differenceInDays = (DateTime.Today - competitiveItem.LastQualityCheckUp).Days;
-                    if (differenceInDays > 0)
+                    var daysToBeSold = (competitiveItem.SellBy - DateTime.Today).Days;
+                    if (daysToBeSold <= 0)
                     {
-                        var daysToBeSold = (competitiveItem.SellBy - DateTime.Today).Days;
-                        if (daysToBeSold <= 0)
-                        {
-                            competitiveItem.Quality = 0;
-                        }
-                        else
-                        {
-                            var newQuality = competitiveItem.Quality + differenceInDays * competitiveItem.QualityDegradationRate;
-                            if (daysToBeSold <= 2)
-                            {
-                                newQuality += newQuality * 3;
-                            }
-                            else if (daysToBeSold <= 5)
-                            {
-                                newQuality += newQuality * 2;
-                            }
-                            QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(competitiveItem, newQuality);
-                        }
+                        competitiveItem.Quality = 0;
                     }
-                } 
+                    else
+                    {
+                        var newQuality = competitiveItem.Quality + differenceInDays * competitiveItem.QualityDegradationRate;
+                        if (daysToBeSold <= 2)
+                        {
+                            newQuality += newQuality * 3;
+                        }
+                        else if (daysToBeSold <= 5)
+                        {
+                            newQuality += newQuality * 2;
+                        }
+                        QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(competitiveItem, newQuality);
+                    }
+                }
             }
             competitiveItem.LastQualityCheckUp = DateTime.Today;
         }

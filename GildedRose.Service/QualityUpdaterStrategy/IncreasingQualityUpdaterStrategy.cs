@@ -7,20 +7,21 @@ namespace GildedRose.Service.QualityUpdaterStrategy
     {
         public void UpdateItemQuality(IItem item)
         {
-            var increasingQualityItem = item as IIncreasingQualityItem;
-            if (increasingQualityItem != null)
+            if (!(item is IIncreasingQualityItem increasingQualityItem))
             {
-                if (increasingQualityItem.Quality < increasingQualityItem.MaximumAllowedQuality)
-                {
-                    var differenceInDays = (DateTime.Today - increasingQualityItem.LastQualityCheckUp).Days;
-                    if (differenceInDays > 0)
-                    {
-                        var newQuality = increasingQualityItem.Quality + increasingQualityItem.QualityIncreasingRate * differenceInDays;
-                        QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(increasingQualityItem, newQuality);
-                    }
-                }
-                item.LastQualityCheckUp = DateTime.Today;
+                throw new ArgumentException($"Using an incorrect strategy: Item is not of type {nameof(IIncreasingQualityItem)}");
             }
+            
+            if (increasingQualityItem.Quality < increasingQualityItem.MaximumAllowedQuality)
+            {
+                var differenceInDays = (DateTime.Today - increasingQualityItem.LastQualityCheckUp).Days;
+                if (differenceInDays > 0)
+                {
+                    var newQuality = increasingQualityItem.Quality + increasingQualityItem.QualityIncreasingRate * differenceInDays;
+                    QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(increasingQualityItem, newQuality);
+                }
+            }
+            item.LastQualityCheckUp = DateTime.Today;
         }
     }
 }
