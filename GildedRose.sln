@@ -14,7 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GildedRose.Service", "Gilde
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GildedRose.Test", "GildedRose.Test\GildedRose.Test.csproj", "{AEB5202C-F7E6-419C-9FCC-197B4F84B8AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GildedRose.Service.API", "GildedRose.Service.API\GildedRose.Service.API.csproj", "{703E4D50-F7A4-4D2F-BDBF-B45B799835A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GildedRose.Service.API", "GildedRose.Service.API\GildedRose.Service.API.csproj", "{703E4D50-F7A4-4D2F-BDBF-B45B799835A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GildedRose.Commons", "GildedRose.Commons\GildedRose.Commons.csproj", "{816D2807-3EF7-4E9E-8B68-18F7F9E30E4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{703E4D50-F7A4-4D2F-BDBF-B45B799835A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{703E4D50-F7A4-4D2F-BDBF-B45B799835A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{703E4D50-F7A4-4D2F-BDBF-B45B799835A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{816D2807-3EF7-4E9E-8B68-18F7F9E30E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816D2807-3EF7-4E9E-8B68-18F7F9E30E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816D2807-3EF7-4E9E-8B68-18F7F9E30E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816D2807-3EF7-4E9E-8B68-18F7F9E30E4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

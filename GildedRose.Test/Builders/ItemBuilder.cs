@@ -3,7 +3,7 @@ using System;
 
 namespace GildedRose.Test.Builders
 {
-    class ItemBuilder
+    internal class ItemBuilder
     {
         private readonly IItem item;
 

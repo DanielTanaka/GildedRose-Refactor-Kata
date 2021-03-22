@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GildedRose.Commons\GildedRose.Commons.csproj" />
     <ProjectReference Include="..\GildedRose.Model\GildedRose.Model.csproj" />
     <ProjectReference Include="..\GildedRose.Service.API\GildedRose.Service.API.csproj" />
   </ItemGroup>

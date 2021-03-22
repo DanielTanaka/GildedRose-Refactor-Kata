@@ -1,4 +1,5 @@
-﻿using GildedRose.Model;
+﻿using GildedRose.Commons;
+using GildedRose.Model;
 using System;
 
 namespace GildedRose.Service.QualityUpdaterStrategy
@@ -9,16 +10,16 @@ namespace GildedRose.Service.QualityUpdaterStrategy
         {
             if (!(item is IDecreasingQualityItem decreasingQualityItem))
             {
-                throw new ArgumentException($"Using an incorrect strategy: Item is not of type {nameof(IDecreasingQualityItem)}");
+                throw new ArgumentException($"Item is not of type {nameof(IDecreasingQualityItem)}");
             }
 
             if (decreasingQualityItem.Quality > 0)
             {
-                var differenceInDays = (DateTime.Today - decreasingQualityItem.LastQualityCheckUp).Days;
+                var differenceInDays = (Clock.Today() - decreasingQualityItem.LastQualityCheckUp).Days;
                 if (differenceInDays > 0)
                 {
                     int newQuality;
-                    if (decreasingQualityItem.SellBy < DateTime.Today)
+                    if (decreasingQualityItem.SellBy < Clock.Today())
                     {
                         newQuality = decreasingQualityItem.Quality - 2 * decreasingQualityItem.QualityDegradationRate * differenceInDays;
                     }
@@ -27,9 +28,9 @@ namespace GildedRose.Service.QualityUpdaterStrategy
                         newQuality = decreasingQualityItem.Quality - decreasingQualityItem.QualityDegradationRate * differenceInDays;
                     }
                     QualityUpdaterHelper.UpdateQualityConsideringMinimumThreshold(decreasingQualityItem, newQuality);
+                    item.LastQualityCheckUp = Clock.Today();
                 }
             }
-            item.LastQualityCheckUp = DateTime.Today;
         }
     }
 }

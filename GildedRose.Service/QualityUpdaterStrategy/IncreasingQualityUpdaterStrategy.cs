@@ -9,7 +9,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
         {
             if (!(item is IIncreasingQualityItem increasingQualityItem))
             {
-                throw new ArgumentException($"Using an incorrect strategy: Item is not of type {nameof(IIncreasingQualityItem)}");
+                throw new ArgumentException($"Item is not of type {nameof(IIncreasingQualityItem)}");
             }
             
             if (increasingQualityItem.Quality < increasingQualityItem.MaximumAllowedQuality)

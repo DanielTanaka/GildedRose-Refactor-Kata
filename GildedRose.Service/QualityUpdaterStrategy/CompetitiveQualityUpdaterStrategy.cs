@@ -10,7 +10,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
             //TODO: Try to improve this code
             if (!(item is ICompetitiveQualityItem competitiveItem))
             {
-                throw new ArgumentException($"Using an incorrect strategy: Item is not of type {nameof(ICompetitiveQualityItem)}");
+                throw new ArgumentException($"Item is not of type {nameof(ICompetitiveQualityItem)}");
             }
 
             if (competitiveItem.Quality > 0 || competitiveItem.Quality < competitiveItem.MaximumAllowedQuality)
