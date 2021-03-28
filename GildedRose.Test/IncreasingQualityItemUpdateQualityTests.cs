@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using GildedRose.Commons;
 using GildedRose.Model;
 using GildedRose.Service.API;
 using GildedRose.Service.Impl;
@@ -8,7 +9,7 @@ using Xunit;
 
 namespace GildedRose.Test
 {
-    public class IncreasingQualityItemUpdateQualityTests
+    public class IncreasingQualityItemUpdateQualityTests : TestBase
     {
         private readonly IItemService itemService;
 
@@ -31,6 +32,12 @@ namespace GildedRose.Test
             item.Quality.Should().Be(newQuality);
         }
 
+        private int CalculateNewAgedItemQuality(IItem item)
+        {
+            var agedItem = item as AgedItem;
+            return agedItem.Quality + (DateTime.Today - agedItem.LastQualityCheckUp).Days * agedItem.QualityIncreasingRate;
+        }
+
         [Fact]
         public void UpdateQuality_ItemWithMaximumQualitySet_ShouldNotIncreaseQuality()
         {
@@ -44,10 +51,25 @@ namespace GildedRose.Test
             item.Quality.Should().Be(item.MaximumAllowedQuality);
         }
 
-        private int CalculateNewAgedItemQuality(IItem item)
+        [Fact]
+        public void UpdateQuality_RunningUpdatesInPeriodsOfLessThan24Hours_ShouldUpdateAccordingly()
         {
-            var agedItem = item as AgedItem;
-            return agedItem.Quality + (DateTime.Today - agedItem.LastQualityCheckUp).Days * agedItem.QualityIncreasingRate;
+            var fakeTodayDate = DateTime.Today.AddDays(-5);
+            var item = new AgedItem();
+            new ItemBuilder(item)
+                .WithDefaultValues()
+                .WithQuality(35)
+                .WithLastQualityCheckUp(fakeTodayDate)
+                .Build();
+
+            for (var i = 0; i < 5; i++)
+            {
+                fakeTodayDate = fakeTodayDate.AddHours(23);
+                Clock.SetTodayDate(fakeTodayDate);
+                itemService.UpdateItemQuality(item);
+            }
+
+            item.Quality.Should().Be(39);
         }
     }
 }

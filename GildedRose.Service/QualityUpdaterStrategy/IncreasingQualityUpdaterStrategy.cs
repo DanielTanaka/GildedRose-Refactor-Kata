@@ -1,4 +1,5 @@
-﻿using GildedRose.Model;
+﻿using GildedRose.Commons;
+using GildedRose.Model;
 using System;
 
 namespace GildedRose.Service.QualityUpdaterStrategy
@@ -14,14 +15,14 @@ namespace GildedRose.Service.QualityUpdaterStrategy
             
             if (increasingQualityItem.Quality < increasingQualityItem.MaximumAllowedQuality)
             {
-                var differenceInDays = (DateTime.Today - increasingQualityItem.LastQualityCheckUp).Days;
+                var differenceInDays = (Clock.Today - increasingQualityItem.LastQualityCheckUp).Days;
                 if (differenceInDays > 0)
                 {
                     var newQuality = increasingQualityItem.Quality + increasingQualityItem.QualityIncreasingRate * differenceInDays;
                     QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(increasingQualityItem, newQuality);
+                    item.LastQualityCheckUp = Clock.Today;
                 }
             }
-            item.LastQualityCheckUp = DateTime.Today;
         }
     }
 }

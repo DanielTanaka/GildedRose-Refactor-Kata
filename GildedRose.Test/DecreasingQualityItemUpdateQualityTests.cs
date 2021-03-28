@@ -97,30 +97,19 @@ namespace GildedRose.Test
             var item = new CommonItem();
             new ItemBuilder(item)
                 .WithDefaultValues()
+                .WithQuality(35)
                 .WithLastQualityCheckUp(fakeTodayDate)
                 .Build();
             item.SellBy = DateTime.Today.AddDays(10);
 
-            var wholeDays = 0;
-            var originalQuality = item.Quality;
-            var theoreticalLastItemCheckUp = item.LastQualityCheckUp;
-            Clock.Today = () => fakeTodayDate;
             for (var i = 0; i < 5; i++)
             {
-                itemService.UpdateItemQuality(item);
                 fakeTodayDate = fakeTodayDate.AddHours(23);
-
-                if ((fakeTodayDate - theoreticalLastItemCheckUp).Days > 0)
-                {
-                    wholeDays++;
-                    theoreticalLastItemCheckUp = Clock.Today();
-                }
-
-                Clock.Today = () => fakeTodayDate;
+                Clock.SetTodayDate(fakeTodayDate);
+                itemService.UpdateItemQuality(item);
             }
 
-            var updatedQuality = originalQuality - item.QualityDegradationRate * wholeDays;
-            item.Quality.Should().Be(updatedQuality);
+            item.Quality.Should().Be(31);
         }
     }
 }

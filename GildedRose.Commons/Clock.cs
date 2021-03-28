@@ -4,16 +4,25 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("GildedRose.Test")]
 namespace GildedRose.Commons
 {
-    //TODO: Remove commented code and discuss a better design
     public static class Clock
     {
-        //public static DateTime Today { get => DateTime.Today; private set { } }
+        private static DateTime today = DateTime.Today;
 
-        public static Func<DateTime> Today = () => DateTime.Today;
+        public static DateTime Today 
+        { 
+            get 
+            { 
+                return today; 
+            } 
+            private set
+            {
+                today = value;
+            } 
+        }
 
-        //internal static void SetTodayDate(DateTime todayDateTime)
-        //{
-        //    Today = todayDateTime;
-        //}
+        internal static void SetTodayDate(DateTime dateTime)
+        {
+            Today = dateTime.Date;
+        }
     }
 }

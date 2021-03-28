@@ -8,7 +8,7 @@ namespace GildedRose.Test
         //XUnit Teardown. This method gets called after every test is finished
         public void Dispose()
         {
-            Clock.Today = () => DateTime.Today;
+            Clock.SetTodayDate(DateTime.Today);
         }
     }
 }

@@ -15,11 +15,11 @@ namespace GildedRose.Service.QualityUpdaterStrategy
 
             if (decreasingQualityItem.Quality > 0)
             {
-                var differenceInDays = (Clock.Today() - decreasingQualityItem.LastQualityCheckUp).Days;
+                var differenceInDays = (Clock.Today - decreasingQualityItem.LastQualityCheckUp).Days;
                 if (differenceInDays > 0)
                 {
                     int newQuality;
-                    if (decreasingQualityItem.SellBy < Clock.Today())
+                    if (decreasingQualityItem.SellBy < Clock.Today)
                     {
                         newQuality = decreasingQualityItem.Quality - 2 * decreasingQualityItem.QualityDegradationRate * differenceInDays;
                     }
@@ -28,7 +28,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
                         newQuality = decreasingQualityItem.Quality - decreasingQualityItem.QualityDegradationRate * differenceInDays;
                     }
                     QualityUpdaterHelper.UpdateQualityConsideringMinimumThreshold(decreasingQualityItem, newQuality);
-                    item.LastQualityCheckUp = Clock.Today();
+                    item.LastQualityCheckUp = Clock.Today;
                 }
             }
         }
