@@ -22,6 +22,9 @@ namespace GildedRose.Test
         //TODO: Include new types
         private readonly IList<IItem> allItemVariants = new List<IItem>
         {
+            new AgedItem(),
+            new BackstagePassItem(),
+            new ConjuredItem(),
             new CommonItem(),
             new LegendaryItem()
         };
@@ -55,22 +58,6 @@ namespace GildedRose.Test
                 -1,
                 -45
             };
-        }
-
-        [Fact]
-        public void UpdateQuality_ItemWithZeroedQuality_ShouldNotLeaveItWithNegativeValue()
-        {
-            foreach (var variant in allItemVariants)
-            {
-                var item = new ItemBuilder(variant)
-                    .WithDefaultValues()
-                    .WithQuality(0)
-                    .Build();
-
-                itemService.UpdateItemQuality(item);
-
-                item.Quality.Should().Be(0);
-            }
         }
 
         [Fact]

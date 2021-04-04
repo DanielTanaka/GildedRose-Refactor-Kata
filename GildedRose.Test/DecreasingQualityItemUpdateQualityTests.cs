@@ -90,14 +90,18 @@ namespace GildedRose.Test
             item.Quality.Should().Be(0);
         }
 
-        [Fact]
-        public void UpdateQuality_RunningUpdatesInPeriodsOfLessThan24Hours_ShouldUpdateAccordingly()
+        [Theory]
+        [InlineData(35, 31)]
+        [InlineData(30, 26)]
+        public void UpdateQuality_RunningUpdatesInPeriodsOfLessThan24Hours_ShouldUpdateAccordingly(
+            int initialQuality,
+            int expectedQuality)
         {
             var fakeTodayDate = DateTime.Today.AddDays(-5);
             var item = new CommonItem();
             new ItemBuilder(item)
                 .WithDefaultValues()
-                .WithQuality(35)
+                .WithQuality(initialQuality)
                 .WithLastQualityCheckUp(fakeTodayDate)
                 .Build();
             item.SellBy = DateTime.Today.AddDays(10);
@@ -109,7 +113,22 @@ namespace GildedRose.Test
                 itemService.UpdateItemQuality(item);
             }
 
-            item.Quality.Should().Be(31);
+            item.Quality.Should().Be(expectedQuality);
+        }
+
+        [Fact]
+        public void UpdateQuality_ItemWithZeroedQuality_ShouldNotLeaveItWithNegativeValue()
+        {
+            var item = new CommonItem();
+            new ItemBuilder(item)
+                .WithDefaultValues()
+                .WithQuality(0)
+                .Build();
+
+            itemService.UpdateItemQuality(item);
+
+            Console.WriteLine(item.Quality);
+            item.Quality.Should().Be(0);
         }
     }
 }

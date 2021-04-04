@@ -19,7 +19,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
                 if (differenceInDays > 0)
                 {
                     var newQuality = increasingQualityItem.Quality + increasingQualityItem.QualityIncreasingRate * differenceInDays;
-                    QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(increasingQualityItem, newQuality);
+                    increasingQualityItem.Quality = Math.Min(newQuality, increasingQualityItem.MaximumAllowedQuality);
                     item.LastQualityCheckUp = Clock.Today;
                 }
             }

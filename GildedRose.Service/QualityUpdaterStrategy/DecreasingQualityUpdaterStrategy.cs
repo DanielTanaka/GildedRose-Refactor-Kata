@@ -27,7 +27,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
                     {
                         newQuality = decreasingQualityItem.Quality - decreasingQualityItem.QualityDegradationRate * differenceInDays;
                     }
-                    QualityUpdaterHelper.UpdateQualityConsideringMinimumThreshold(decreasingQualityItem, newQuality);
+                    decreasingQualityItem.Quality = Math.Max(newQuality, 0);
                     item.LastQualityCheckUp = Clock.Today;
                 }
             }

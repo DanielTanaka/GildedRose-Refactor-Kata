@@ -34,7 +34,7 @@ namespace GildedRose.Service.QualityUpdaterStrategy
                         {
                             newQuality += newQuality * 2;
                         }
-                        QualityUpdaterHelper.UpdateQualityConsideringMaximumThreshold(competitiveItem, newQuality);
+                        competitiveItem.Quality = Math.Max(newQuality, 0);
                     }
                 }
             }
